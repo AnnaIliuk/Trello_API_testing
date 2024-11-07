@@ -5,13 +5,9 @@ name: CI
 # Controls when the workflow will run
 on:
   # Triggers the workflow on push or pull request events but only for the "main" branch
-  push:
-    branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
-
-  # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
+  schedule:
+  - cron: '30 18 * * 1,3,5'
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
@@ -22,15 +18,32 @@ jobs:
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - uses: actions/checkout@v4
+      # 1.Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - name: pull code from remote repository
+        uses: actions/checkout@v4
 
-      # Runs a single command using the runners shell
-      - name: Run a one-line script
-        run: echo Hello, world!
+      # 2.Install Node.js
+      - name: setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Install dependencies(Node)
+        run: npm install
 
-      # Runs a set of commands using the runners shell
-      - name: Run a multi-line script
+      # 3.Install Newman & Reporter
+      - name: Install Newman & Reporter
         run: |
-          echo Add other actions to build,
-          echo test, and deploy your project.
+          npm install -g newman
+          npm install -g newman-reporter-htmlextra
+
+      # 4.Run newman cli,htmlextra
+      - name: Run Postman
+        env:
+          POSTMAN_API_URL: 'https://api.getpostman.com'
+          POSTMAN_API_KEY: ${{ b0f03e89fd6173dd8a0843ccb11d1f90 }}
+        run: newman run 'Trello_Anna.postman_collection.json' -e 'Trello_Environment.postman_environment.json' -r cli, html
+          
+
+      # 5. Check htmlextra
+      - name: Check htmlextra
+        run: ls  

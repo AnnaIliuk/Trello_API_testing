@@ -41,7 +41,7 @@ jobs:
         env:
           POSTMAN_API_URL: 'https://api.getpostman.com'
           POSTMAN_API_KEY: ${{ b0f03e89fd6173dd8a0843ccb11d1f90 }}
-        run: newman run "Trello_Anna.postman_collection.json" -e "Trello_Environment.postman_environment.json" -r cli, html
+        run: newman run 'Trello_Anna.postman_collection.json' -e 'Trello_Environment.postman_environment.json' -r cli, html
           
 
       # 5. Check htmlextra

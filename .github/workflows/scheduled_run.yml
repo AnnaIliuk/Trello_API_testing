@@ -35,7 +35,7 @@ jobs:
           npm install -g newman
           npm install -g newman-reporter-htmlextra
 
-      # 4.Run newman cli,htmlextra
+      
       - name: Run Postman
         run: 'newman run 'Trello_Anna.postman_collection.json' -e 'Trello_Environment.postman_environment.json' -r cli,htmlextra --reporter-htmlextra-export report.html'
           

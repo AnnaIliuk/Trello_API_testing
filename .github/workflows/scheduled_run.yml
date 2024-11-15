@@ -26,9 +26,6 @@ jobs:
       - name: setup Node.js
         uses: actions/setup-node@v4
 
-      - name: Install dependencies(Node)
-        run: npm install
-
       # 3.Install Newman & Reporter
       - name: Install Newman & Reporter
         run: |

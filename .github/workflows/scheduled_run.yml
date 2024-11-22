@@ -6,7 +6,7 @@ on:
   # Triggers the workflow on push or pull request events but only for the "main" branch
   workflow_dispatch:
   schedule:
-      - cron: '30 15 * * 1,3,5'
+      - cron: 30 15 * * 1,3,5
 
       # 1.Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - name: pull code from remote repository

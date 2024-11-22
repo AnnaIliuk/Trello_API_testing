@@ -21,11 +21,12 @@ on:
         run: |
           npm install -g newman
           npm install -g newman-reporter-htmlextra
- 
+
+      # 4. Run Postman collection
       - name: Run Postman
         run: 'newman run Trello_Anna.postman_collection.json -e Trello_Environment.postman_environment.json -r cli,htmlextra --reporter-htmlextra-export report.html'
 
-       # 5. Upload artifact
+      # 5. Upload artifact
       - name: Output the results
         if: always()
         uses: actions/upload-artifact@v4
@@ -34,17 +35,20 @@ on:
           path: "*html"
 
        # 6. Send mail
-      - name: Send mail
+      - name: Send report by email
+        if: always()
         uses: dawidd6/action-send-mail@v4
         with:
           server_address: smtp.gmail.com
           server_port: 465
           secure: true
-          username: anilser19@gmail.com
-          password: fibf xneh ersk qzzn
+          username: ${{secrets.MAIL.USERNAME}}
+          password: ${{secrets.MAIL_PASSWORD}}
           subject: Github Actions job result
           to: anilser19@gmail.ru
           from:  GitHub Trello_Postman-testing Repo
+          attachments: report.html
+
        
           
           
